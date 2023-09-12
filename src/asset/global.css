@@ -1,0 +1,7 @@
+.input_field{
+    width: 80% !important;
+}
+.input_box{
+    display: flex !important;
+    justify-content: space-between !important;
+}
