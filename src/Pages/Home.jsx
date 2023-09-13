@@ -1,14 +1,29 @@
-import { Box, TextField, Typography } from "@mui/material"
-import React, {useState } from "react"
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material"
+import React, { useState } from "react"
 import TodoList from "./TodoList"
 import { BsPlusCircleFill } from "react-icons/bs"
-import { FaEdit } from "react-icons/fa"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPen } from "@fortawesome/free-solid-svg-icons"
 
 const Home = () => {
   const [todo, setTodo] = useState("")
   const [todos, setTodos] = useState([])
   const [editId, setEditId] = useState("")
+  const [checked, setChecked] = useState(false)
+  const [category, setCategory] = useState({ category: "" })
+  const [completeData, setCompleteData] = useState("")
 
+  console.log(todos,"++++++++++")
+  ;
+  // set value
   const handleChange = (evt) => {
     return setTodo(evt.target.value)
   }
@@ -29,7 +44,7 @@ const Home = () => {
       return
     }
     if (todo !== "") {
-      setTodos([{ id: `${todo}-${Date.now()}`, todo }, ...todos])
+      setTodos([{ id: `${todo}-${Date.now()}`, todo,checked}, ...todos])
       setTodo("")
     }
   }
@@ -47,6 +62,20 @@ const Home = () => {
     setEditId(id)
   }
 
+  // checkbox handle
+  const handleCheck = (id) => {
+    const checkTodo = todos.filter((list) => list.id === id)
+    checkTodo.map((eleme) =>
+      eleme.id === id ? setChecked(!checked) : setChecked(false)
+    )
+    // setCompleteData(todos)
+  }
+
+  // category handle
+  const handleCategory = (e) => {
+    setCategory({ [e.target.name]: e.target.value })
+  }
+
   return (
     <Box className=" w-[90%] mdl:w-[50%] sml:w-[60%] lg:w-[50%] xl:w-[40%]  mx-auto  m-4 p-4 rounded-lg shadow-xl  bg-white border border-gray-300 text-center">
       <Box className="text-center py-3">
@@ -55,7 +84,7 @@ const Home = () => {
         </Typography>
       </Box>
       <form className="w-[100%]" onSubmit={(e) => handleAdd(e)}>
-        <Box className="input_box">
+        <Box className="input_box px-6">
           <Box className="w-[100%] flex justify-between items-center">
             <TextField
               onChange={handleChange}
@@ -68,7 +97,11 @@ const Home = () => {
               autoComplete="off"
             />
             {editId ? (
-              <FaEdit className=" text-green-400 h-8 w-8" onClick={handleAdd} />
+              <FontAwesomeIcon
+                icon={faPen}
+                className=" text-blue-900 h-6 w-6"
+                onClick={handleAdd}
+              />
             ) : (
               <BsPlusCircleFill
                 className=" text-violet-500 h-8 w-8"
@@ -77,8 +110,29 @@ const Home = () => {
             )}
           </Box>
         </Box>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="All"
+          name="radio-buttons-group"
+          row
+          className="flex items-center justify-center mt-2"
+          onChange={handleCategory}
+        >
+          <FormControlLabel value="All" control={<Radio />} label="All" />
+          <FormControlLabel
+            value="Complete"
+            control={<Radio />}
+            label="Complete"
+          />
+          <FormControlLabel
+            value="Uncomplete"
+            control={<Radio />}
+            label="Uncomplete"
+          />
+        </RadioGroup>
+        <hr />
       </form>
-      <Box className="mt-4">
+      <Box className="mt-2 p-3 input_data">
         <ul>
           {todos.map((list) => {
             return (
@@ -88,6 +142,8 @@ const Home = () => {
                 list={list}
                 onSelect={handleDelete}
                 onEdit={handleEdit}
+                handleCheck={handleCheck}
+                checked={checked}
               />
             )
           })}

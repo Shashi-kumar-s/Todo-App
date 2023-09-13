@@ -1,10 +1,13 @@
+body{
+    background-color: rgb(134, 131, 131);
+}
 .signup_title{
     font-weight: 700 !important;
     font-size: 30px !important;
     color: blueviolet;
 }
 .input_field{
-    width: 80% !important;
+    width: 85% !important;
 }
 .input_box{
     display: flex !important;
@@ -12,4 +15,11 @@
 }
 .checkbox{
     color: white !important;
+}
+.input_data{
+    overflow-y: scroll !important;
+    height: 60vh !important;
+}
+.task_complete{
+    font-size: 12px !important;
 }
