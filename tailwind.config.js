@@ -16,7 +16,9 @@ export default {
         lgl: "1024px",
         xl: "1280px",
       },
-      
+      fontFamily:{
+        bodyFont:["sans-serif",],
+      }
     },
   },
   plugins: [],
