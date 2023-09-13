@@ -1,7 +1,15 @@
+.signup_title{
+    font-weight: 700 !important;
+    font-size: 30px !important;
+    color: blueviolet;
+}
 .input_field{
     width: 80% !important;
 }
 .input_box{
     display: flex !important;
     justify-content: space-between !important;
+}
+.checkbox{
+    color: white !important;
 }
