@@ -1,149 +1,196 @@
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from "@mui/material"
-import React, { useState } from "react"
+import { Box, Button, Radio, RadioGroup, Typography } from "@mui/material"
+import React, { useEffect, useState } from "react"
 import TodoList from "./TodoList"
-import { BsPlusCircleFill } from "react-icons/bs"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPen } from "@fortawesome/free-solid-svg-icons"
+import { faCirclePlus, faPen } from "@fortawesome/free-solid-svg-icons"
+import TextInput from "../Component/TextInput/TextInput"
+import FontAwesome from "../Component/FontAwesome/FontAwesome"
+import ButtonCategory from "../Component/Button/Button"
 
 const Home = () => {
-  const [todo, setTodo] = useState("")
-  const [todos, setTodos] = useState([])
+  const [todoInput, setTodoInput] = useState("")
+  const [allTodos, setAllTodos] = useState([])
   const [editId, setEditId] = useState("")
-  const [checked, setChecked] = useState(false)
-  const [category, setCategory] = useState({ category: "" })
-  const [completeData, setCompleteData] = useState("")
+  const [listOfTodos, setListOfTodos] = useState([])
+  
 
-  console.log(todos,"++++++++++")
-  ;
-  // set value
-  const handleChange = (evt) => {
-    return setTodo(evt.target.value)
+  const handleChange = (e) => {
+    return setTodoInput(e.target.value)
   }
+  useEffect(() => {
+    setListOfTodos(allTodos)
+  }, [allTodos])
 
-  // edit and delete todo list
   const handleAdd = (e) => {
     e.preventDefault()
+    if (todoInput !== "") {
+      setAllTodos([{ id: Date.now(), todoInput, checked: false }, ...allTodos])
+    }
+
     if (editId) {
-      const editTodo = todos.find((i) => i.id === editId)
-      const upDateTodos = todos.map((elem) =>
-        elem.id === editTodo.id
-          ? (elem = { id: elem.id, todo })
-          : { id: elem.id, todo: elem.todo }
+      const updateTodos = allTodos.map((elem) =>
+        elem.id === editId
+          ? (elem = { id: elem.id, checked: elem.checked, todoInput })
+          : { id: elem.id,checked:elem.checked, todoInput: elem.todoInput }
       )
-      setTodos(upDateTodos)
+      setAllTodos(updateTodos)
       setEditId(0)
-      setTodo("")
+      setTodoInput("")
       return
     }
-    if (todo !== "") {
-      setTodos([{ id: `${todo}-${Date.now()}`, todo,checked}, ...todos])
-      setTodo("")
-    }
+    setTodoInput("")
   }
 
-  // delete todo list
   const handleDelete = (id) => {
-    const delTodo = todos.filter((list) => list.id !== id)
-    setTodos([...delTodo])
+    const deleteTodo = allTodos.filter((task) => task.id !== id)
+    setAllTodos(deleteTodo)
   }
 
-  // edit todo list
   const handleEdit = (id) => {
-    const editData = todos.find((ele) => ele.id === id)
-    setTodo(editData.todo)
-    setEditId(id)
+    allTodos.map((task) => {
+      if (task.id === id) {
+        setTodoInput(task.todoInput)
+        setEditId(id)
+      }
+    })
   }
 
-  // checkbox handle
-  const handleCheck = (id) => {
-    const checkTodo = todos.filter((list) => list.id === id)
-    checkTodo.map((eleme) =>
-      eleme.id === id ? setChecked(!checked) : setChecked(false)
+  const handleCheckBox = (id) => {
+    const checkData = allTodos.map((elem) =>
+      elem.id === id
+        ? (elem = {
+            id: elem.id,
+            checked: (elem.checked = !elem.checked),
+            todoInput: elem.todoInput,
+          })
+        : {
+            id: elem.id,
+            checked: elem.checked,
+            todoInput: elem.todoInput,
+          }
     )
-    // setCompleteData(todos)
+    setAllTodos(checkData)
+
   }
 
-  // category handle
-  const handleCategory = (e) => {
-    setCategory({ [e.target.name]: e.target.value })
+  const handleAll = () => {
+    setListOfTodos(allTodos)
   }
+
+  const handleComplete = () => {
+    setListOfTodos("")
+    const completeTask = allTodos.filter((ele) => ele.checked)
+    setListOfTodos(completeTask)
+  }
+
+  const handleInComplete = () => {
+    setListOfTodos("")
+    const InCompleteTask = allTodos.filter((ele) => !ele.checked)
+    setListOfTodos(InCompleteTask)
+  }
+
+  const handleDeleteAll = () => {
+    setAllTodos([])
+  }
+
+  const handleDeleteSelected = () => {
+     const selectChecked = allTodos.filter((ele) => !ele.checked)
+     setAllTodos(selectChecked)
+  }
+  console.log(allTodos,"alll++++++++++++++");
+
 
   return (
-    <Box className=" w-[90%] mdl:w-[50%] sml:w-[60%] lg:w-[50%] xl:w-[40%]  mx-auto  m-4 p-4 rounded-lg shadow-xl  bg-white border border-gray-300 text-center">
+    <Box className=" w-[90%] mdl:w-[50%] sml:w-[60%] lg:w-[50%] xl:w-[40%]  mx-auto  m-4 p-4 rounded-lg shadow-xl  bg-white border border-gray-300 text-center wraper-1">
       <Box className="text-center py-3">
-        <Typography variant="h1" component="h1" className="signup_title">
-          Todo - List
+        <Typography variant="h1" component="h1" className="signup_title pb-3">
+          TODO - APP
         </Typography>
       </Box>
-      <form className="w-[100%]" onSubmit={(e) => handleAdd(e)}>
-        <Box className="input_box px-6">
-          <Box className="w-[100%] flex justify-between items-center">
-            <TextField
+      <form className="w-[100%] form_box" onSubmit={handleAdd}>
+        <Box className="input_box px-6 pt-2">
+          <Box className=" w-[100%] flex justify-between items-center px-4">
+            <TextInput
               onChange={handleChange}
-              className="input_field"
-              type="text"
-              value={todo}
+              className={"input_field"}
+              type={"text"}
+              value={todoInput}
               autoFocus={true}
-              variant="standard"
-              placeholder="Enter your todos"
-              autoComplete="off"
+              variant={"standard"}
+              placeholder={"Enter Your Todos Here..."}
+              autoComplete={"off"}
             />
             {editId ? (
-              <FontAwesomeIcon
-                icon={faPen}
-                className=" text-blue-900 h-6 w-6"
+              <FontAwesome
+                iconName={faPen}
+                className={" text-blue-900 h-6 w-6 cursor-pointer"}
                 onClick={handleAdd}
               />
             ) : (
-              <BsPlusCircleFill
-                className=" text-violet-500 h-8 w-8"
+              <FontAwesome
+                iconName={faCirclePlus}
+                className={" text-blue-700 h-8 w-8 cursor-pointer"}
                 onClick={handleAdd}
               />
             )}
           </Box>
         </Box>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="All"
-          name="radio-buttons-group"
-          row
-          className="flex items-center justify-center mt-2"
-          onChange={handleCategory}
-        >
-          <FormControlLabel value="All" control={<Radio />} label="All" />
-          <FormControlLabel
-            value="Complete"
-            control={<Radio />}
-            label="Complete"
-          />
-          <FormControlLabel
-            value="Uncomplete"
-            control={<Radio />}
-            label="Uncomplete"
-          />
-        </RadioGroup>
-        <hr />
+        <Box className="flex justify-evenly items-center my-4 flex-wrap">
+          {allTodos.length !== 0 ? (
+            <>
+              <ButtonCategory
+                value={"All"}
+                variant={"contained"}
+                onClick={handleAll}
+                className="mb-4"
+              />
+              <ButtonCategory
+                value={"complete"}
+                variant={"contained"}
+                onClick={handleComplete}
+                className="mb-4"
+
+              />
+              <ButtonCategory
+                value={"Incomplete"}
+                variant={"contained"}
+                onClick={handleInComplete}
+                className="mb-4"
+
+              />
+              <ButtonCategory
+                value={"Delete All"}
+                variant={"contained"}
+                onClick={handleDeleteAll}
+                className="mb-4"
+
+
+              />
+              <ButtonCategory
+                value={"Delete Selected"}
+                variant={"contained"}
+                onClick={handleDeleteSelected}
+                className="mb-4"
+
+              />
+              <hr />
+            </>
+          ) : (
+            " "
+          )}
+        </Box>
       </form>
       <Box className="mt-2 p-3 input_data">
         <ul>
-          {todos.map((list) => {
+          {listOfTodos.map((list) => {
             return (
               <TodoList
                 key={list.id}
                 id={list.id}
-                list={list}
-                onSelect={handleDelete}
-                onEdit={handleEdit}
-                handleCheck={handleCheck}
-                checked={checked}
+                list={list.todoInput}
+                checked={list.checked}
+                deleteTodo={handleDelete}
+                editTodo={handleEdit}
+                handleCheckBox={handleCheckBox}
               />
             )
           })}
