@@ -5,17 +5,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
 
 const TodoList = (props) => {
-  const { onSelect, id, list, onEdit, checked, handleCheck } = props
+  const { deleteTodo, id, list, editTodo, handleCheckBox, checked,checkbox } = props
 
   return (
-    <Box className="flex items-center justify-between bg-black text-white  mt-1 rounded-lg p-1">
+    <Box className="flex items-center justify-between bg-black text-white  mt-1 rounded-lg py-1">
       <li className=" font-bold">
         <Checkbox
           size="small"
+          checked={checked?true:false}
           className="checkbox"
-          onClick={() => handleCheck(id)}
+          onChange={() => handleCheckBox(id)}
         />
-        {list.todo}
+        {list}
       </li>
       <Box className="flex items-center justify-between">
         {checked === true ? (
@@ -25,10 +26,10 @@ const TodoList = (props) => {
         ) : (
           ""
         )}
-        <Button onClick={() => onEdit(id)}>
+        <Button onClick={() => editTodo(id)}>
           <FaEdit className="w-6 h-6 text-green-400" />
         </Button>
-        <Button onClick={() => onSelect(id)}>
+        <Button onClick={() => deleteTodo(id)}>
           <FontAwesomeIcon icon={faTrash} className=" w-5 h-5 text-red-400" />
         </Button>
       </Box>
@@ -37,3 +38,5 @@ const TodoList = (props) => {
 }
 
 export default TodoList
+
+
