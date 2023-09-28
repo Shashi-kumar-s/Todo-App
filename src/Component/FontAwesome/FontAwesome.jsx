@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import propTypes from "prop-types"
 
 const FontAwesome = (props) => {
     const{iconName,onClick,className}=props
@@ -7,6 +7,11 @@ const FontAwesome = (props) => {
     <FontAwesomeIcon icon={iconName} onClick={onClick} className={className}
   />
   )
+}
+
+FontAwesome.propTypes={
+  onclick:propTypes.func,
+  className:propTypes.string
 }
 
 export default FontAwesome

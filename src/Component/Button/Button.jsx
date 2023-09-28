@@ -1,12 +1,20 @@
-import React from 'react'
-import { Button } from '@mui/material'
-import { ClassNames } from '@emotion/react'
+import React from "react"
+import { Button } from "@mui/material"
+import propTypes from "prop-types"
 
 const ButtonCategory = (props) => {
-    const {value,onClick,variant,classname}=props
+  const { value, onClick, variant } = props
   return (
-    <Button variant={variant} onClick={onClick}>{value}</Button>
+    <Button variant={variant} onClick={onClick}>
+      {value}
+    </Button>
   )
+}
+
+ButtonCategory.propTypes = {
+  value: propTypes.string,
+  onclick: propTypes.func,
+  variant: propTypes.string,
 }
 
 export default ButtonCategory

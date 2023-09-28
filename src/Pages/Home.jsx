@@ -5,6 +5,7 @@ import { faCirclePlus, faPen } from "@fortawesome/free-solid-svg-icons"
 import TextInput from "../Component/TextInput/TextInput"
 import FontAwesome from "../Component/FontAwesome/FontAwesome"
 import ButtonCategory from "../Component/Button/Button"
+import { CategoryButton } from "../utilities/buttonDetailsData/CategoryButton"
 
 const Home = () => {
   const [todoInput, setTodoInput] = useState("")
@@ -12,17 +13,17 @@ const Home = () => {
   const [editId, setEditId] = useState("")
   const [listOfTodos, setListOfTodos] = useState([])
   
-
   const handleChange = (e) => {
     return setTodoInput(e.target.value)
   }
+  
   useEffect(() => {
-    setListOfTodos(allTodos)
+      setListOfTodos(allTodos)
   }, [allTodos])
-
+  
   const handleAdd = (e) => {
     e.preventDefault()
-    if (todoInput !== "") {
+    if ((todoInput).trim()!== "") {
       setAllTodos([{ id: Date.now(), todoInput, checked: false }, ...allTodos])
     }
 
@@ -30,7 +31,7 @@ const Home = () => {
       const updateTodos = allTodos.map((elem) =>
         elem.id === editId
           ? (elem = { id: elem.id, checked: elem.checked, todoInput })
-          : { id: elem.id,checked:elem.checked, todoInput: elem.todoInput }
+          : { id: elem.id, checked: elem.checked, todoInput: elem.todoInput }
       )
       setAllTodos(updateTodos)
       setEditId(0)
@@ -43,6 +44,7 @@ const Home = () => {
   const handleDelete = (id) => {
     const deleteTodo = allTodos.filter((task) => task.id !== id)
     setAllTodos(deleteTodo)
+
   }
 
   const handleEdit = (id) => {
@@ -69,7 +71,6 @@ const Home = () => {
           }
     )
     setAllTodos(checkData)
-
   }
 
   const handleAll = () => {
@@ -80,6 +81,7 @@ const Home = () => {
     setListOfTodos("")
     const completeTask = allTodos.filter((ele) => ele.checked)
     setListOfTodos(completeTask)
+
   }
 
   const handleInComplete = () => {
@@ -93,21 +95,19 @@ const Home = () => {
   }
 
   const handleDeleteSelected = () => {
-     const selectChecked = allTodos.filter((ele) => !ele.checked)
-     setAllTodos(selectChecked)
+    const selectChecked = allTodos.filter((ele) => !ele.checked)
+    setAllTodos(selectChecked)
   }
-  console.log(allTodos,"alll++++++++++++++");
-
 
   return (
-    <Box className=" w-[90%] mdl:w-[50%] sml:w-[60%] lg:w-[50%] xl:w-[40%]  mx-auto  m-4 p-4 rounded-lg shadow-xl  bg-white border border-gray-300 text-center wraper-1">
-      <Box className="text-center py-3">
-        <Typography variant="h1" component="h1" className="signup_title pb-3">
+    <Box className=" w-[90%] mdl:w-[70%] sml:w-[80%] lg:w-[50%]  mx-auto  m-4 p-1 rounded-lg shadow-xl  bg-white border border-gray-300  wraper-1">
+      <Box className=" py-3 heading_title">
+        <Typography variant="h1" component="h1" className="title pb-3">
           TODO - APP
         </Typography>
       </Box>
-      <form className="w-[100%] form_box" onSubmit={handleAdd}>
-        <Box className="input_box px-6 pt-2">
+      <form className="w-[100%] form_box md:px-4" onSubmit={handleAdd}>
+        <Box className="input_box xs:px-1 px-6 pt-2">
           <Box className=" w-[100%] flex justify-between items-center px-4">
             <TextInput
               onChange={handleChange}
@@ -134,53 +134,41 @@ const Home = () => {
             )}
           </Box>
         </Box>
-        <Box className="flex justify-evenly items-center my-4 flex-wrap">
-          {allTodos.length !== 0 ? (
+        <Box className="flex justify-center items-center my-4 flex-wrap sm:px-2">
+          {allTodos.length !== 0 && 
             <>
               <ButtonCategory
                 value={"All"}
                 variant={"contained"}
                 onClick={handleAll}
-                className="mb-4"
               />
               <ButtonCategory
                 value={"complete"}
                 variant={"contained"}
                 onClick={handleComplete}
-                className="mb-4"
-
               />
               <ButtonCategory
                 value={"Incomplete"}
                 variant={"contained"}
                 onClick={handleInComplete}
-                className="mb-4"
-
               />
               <ButtonCategory
                 value={"Delete All"}
                 variant={"contained"}
                 onClick={handleDeleteAll}
-                className="mb-4"
-
-
               />
               <ButtonCategory
                 value={"Delete Selected"}
                 variant={"contained"}
                 onClick={handleDeleteSelected}
-                className="mb-4"
-
               />
-              <hr />
+              <hr className=" text-white" />
             </>
-          ) : (
-            " "
-          )}
+         }
         </Box>
       </form>
-      <Box className="mt-2 p-3 input_data">
-        <ul>
+      <Box className="mt-2 sm:px-1 py-3 input_data flex justify-center">
+        <ul className="w-[100%]">
           {listOfTodos.map((list) => {
             return (
               <TodoList
