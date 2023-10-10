@@ -6,7 +6,10 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
-.signup_title{
+.heading_title{
+    text-align: center !important;
+}
+.title{
     font-weight: 900 !important;
     font-size: 30px !important;
     color: blueviolet;
@@ -31,12 +34,40 @@ body{
     color: white !important;
 }
 .input_data{
-    overflow-y: scroll !important;
-    height: 60vh !important;
+    height: 50vh !important;
+    overflow-y: scroll !important;  
+
+}
+
+.todo_List{
+    margin: 0px 4px;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg,#d0368a 0%,#708ad4 99%);
+    border-radius: 100px;
+    box-shadow: inset 2px 2px 5px 0 rgba(#fff,0.5),inset -2px -2px 2px rgba(0,0,0,.25);
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(43, 42, 42);
+
 }
 .task_complete{
     font-size: 12px !important;
 }
 .MuiButton-root{
-    margin-top: 6px !important;
+    margin: 4px !important;
+    padding: 4px !important;
+}
+.btn_edit_delete{
+    padding: 1px !important;
+    margin: 1px !important;
+}
+.task_status{
+    text-align: center !important;
+    justify-content: flex-end;
 }
