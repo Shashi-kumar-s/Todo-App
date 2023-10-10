@@ -1,20 +1,19 @@
-import { Box, Button, Radio, RadioGroup, Typography } from "@mui/material"
+import { Box,Typography } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import TodoList from "./TodoList"
 import { faCirclePlus, faPen } from "@fortawesome/free-solid-svg-icons"
 import TextInput from "../Component/TextInput/TextInput"
 import FontAwesome from "../Component/FontAwesome/FontAwesome"
 import ButtonCategory from "../Component/Button/Button"
-import { CategoryButton } from "../utilities/buttonDetailsData/CategoryButton"
 
 const Home = () => {
-  const [todoInput, setTodoInput] = useState("")
+  const [input, setInput] = useState("")
   const [allTodos, setAllTodos] = useState([])
   const [editId, setEditId] = useState("")
   const [listOfTodos, setListOfTodos] = useState([])
   
   const handleChange = (e) => {
-    return setTodoInput(e.target.value)
+    return setInput(e.target.value)
   }
   
   useEffect(() => {
@@ -23,22 +22,22 @@ const Home = () => {
   
   const handleAdd = (e) => {
     e.preventDefault()
-    if ((todoInput).trim()!== "") {
-      setAllTodos([{ id: Date.now(), todoInput, checked: false }, ...allTodos])
+    if ((input).trim()!== "") {
+      setAllTodos([{ id: Date.now(), input, checked: false }, ...allTodos])
     }
 
     if (editId) {
       const updateTodos = allTodos.map((elem) =>
         elem.id === editId
-          ? (elem = { id: elem.id, checked: elem.checked, todoInput })
-          : { id: elem.id, checked: elem.checked, todoInput: elem.todoInput }
+          ? (elem = { id: elem.id, checked: elem.checked, input })
+          : { id: elem.id, checked: elem.checked, Input: elem.input }
       )
       setAllTodos(updateTodos)
       setEditId(0)
-      setTodoInput("")
+      setInput("")
       return
     }
-    setTodoInput("")
+    setInput("")
   }
 
   const handleDelete = (id) => {
@@ -50,7 +49,7 @@ const Home = () => {
   const handleEdit = (id) => {
     allTodos.map((task) => {
       if (task.id === id) {
-        setTodoInput(task.todoInput)
+        setInput((task.input).trim())
         setEditId(id)
       }
     })
@@ -62,12 +61,12 @@ const Home = () => {
         ? (elem = {
             id: elem.id,
             checked: (elem.checked = !elem.checked),
-            todoInput: elem.todoInput,
+            input: elem.input,
           })
         : {
             id: elem.id,
             checked: elem.checked,
-            todoInput: elem.todoInput,
+            input: elem.input,
           }
     )
     setAllTodos(checkData)
@@ -92,6 +91,7 @@ const Home = () => {
 
   const handleDeleteAll = () => {
     setAllTodos([])
+    setInput("")
   }
 
   const handleDeleteSelected = () => {
@@ -113,7 +113,7 @@ const Home = () => {
               onChange={handleChange}
               className={"input_field"}
               type={"text"}
-              value={todoInput}
+              value={input}
               autoFocus={true}
               variant={"standard"}
               placeholder={"Enter Your Todos Here..."}
@@ -174,7 +174,7 @@ const Home = () => {
               <TodoList
                 key={list.id}
                 id={list.id}
-                list={list.todoInput}
+                list={list.input}
                 checked={list.checked}
                 deleteTodo={handleDelete}
                 editTodo={handleEdit}

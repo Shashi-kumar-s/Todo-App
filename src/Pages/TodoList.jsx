@@ -3,12 +3,11 @@ import { FaEdit } from "react-icons/fa"
 import { Box, Button, Checkbox, Typography } from "@mui/material"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
-import proptTypes from "prop-types"
+import propTypes from "prop-types"
 
 const TodoList = (props) => {
   const { deleteTodo, id, list, editTodo, handleCheckBox, checked } = props
 
-  console.log(props)
   return (
     <Box className="flex items-center todo_List bg-black text-white  mt-1 rounded-lg flex-col sml:flex-row">
       <Box className=" flex items-center w-[100%] sml:w-[100%]">
@@ -24,12 +23,10 @@ const TodoList = (props) => {
       </Box>
       <Box className="flex items-center task_status w-[100%] sml:w-[50%] justify-between sml:justify-end pl-3">
         <Box>
-          {checked === true ? (
+          {checked === true && (
             <Typography className=" text-white task_complete">
               Task completed
             </Typography>
-          ) : (
-            ""
           )}
         </Box>
         <Box className="flex  sml:flex-row">
@@ -45,7 +42,7 @@ const TodoList = (props) => {
   )
 }
 
-TodoList.proptTypes = {
+TodoList.propTypes = {
   id: proptTypes.number,
   list: proptTypes.string,
   deleteTodo: proptTypes.func,

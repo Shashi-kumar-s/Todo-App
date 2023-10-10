@@ -34,8 +34,9 @@ body{
     color: white !important;
 }
 .input_data{
-    min-height: 50vh !important;
+    height: 50vh !important;
     overflow-y: scroll !important;  
+
 }
 
 .todo_List{
